@@ -1,38 +1,102 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
-  Licensed to the Apache Software Foundation (ASF) under one or more
-  contributor license agreements.  See the NOTICE file distributed with
-  this work for additional information regarding copyright ownership.
-  The ASF licenses this file to You under the Apache License, Version 2.0
-  (the "License"); you may not use this file except in compliance with
-  the License.  You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
-  <!--
-    - This is a sample configuration for log4j.
-    - It simply just logs everything into a single log file.
-    - Note, that you can use properties for value substitution.
-    -->
-  <appender name="CORE" class="org.apache.log4j.FileAppender">
-    <param name="File"   value="${org.apache.cocoon.work.directory}/cocoon-logs/log4j.log" />
-    <param name="Append" value="false" />
+<log4j:configuration>
+
+  <!-- ========================== 自定义输出格式说明================================ -->
+  <!-- %p 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL -->
+  <!-- #%r 输出自应用启动到输出该log信息耗费的毫秒数  -->
+  <!-- #%c 输出所属的类目，通常就是所在类的全名 -->
+  <!-- #%t 输出产生该日志事件的线程名 -->
+  <!-- #%n 输出一个回车换行符，Windows平台为“\r\n”，Unix平台为“\n” -->
+  <!-- #%d 输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，比如：%d{yyy MMM dd HH:mm:ss,SSS}，输出类似：2002年10月18日 22：10：28，921  -->
+  <!-- #%l 输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)  -->
+  <!-- ========================================================================== -->
+
+  <!-- ========================== 输出方式说明================================ -->
+  <!-- Log4j提供的appender有以下几种:  -->
+  <!-- org.apache.log4j.ConsoleAppender(控制台),  -->
+  <!-- org.apache.log4j.FileAppender(文件),  -->
+  <!-- org.apache.log4j.DailyRollingFileAppender(每天产生一个日志文件), -->
+  <!-- org.apache.log4j.RollingFileAppender(文件大小到达指定尺寸的时候产生一个新的文件),  -->
+  <!-- org.apache.log4j.WriterAppender(将日志信息以流格式发送到任意指定的地方)   -->
+
+  <!-- 输出到控制台中 -->
+  <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
     <layout class="org.apache.log4j.PatternLayout">
-      <param name="ConversionPattern" value="%d %-5p %t %c - %m%n"/>
+      <param name="ConversionPattern"
+             value="%d - %c -%-4r [%t] %-5p %x - %m%n" />
     </layout>
+    <!--限制输出级别-->
+    <filter class="org.apache.log4j.varia.LevelRangeFilter">
+      <param name="LevelMax" value="ERROR"/>
+      <param name="LevelMin" value="TRACE"/>
+    </filter>
+  </appender>
+
+  <!-- 输出error到日志文件 每天一个日志  -->
+  <appender name="error_log_daily" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="log/error/error_daily.log" />
+    <param name="DatePattern" value="'daily.'yyyy-MM-dd'.log'" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss\} %-5p] [%t] (%c:%L) - %m%n" />
+    </layout>
+    <!--限制输出级别-->
+    <filter class="org.apache.log4j.varia.LevelRangeFilter">
+      <param name="LevelMax" value="ERROR"/>
+      <param name="LevelMin" value="ERROR"/>
+    </filter>
+  </appender>
+
+  <!-- 输出warn到日志文件 每天一个日志  -->
+  <appender name="warn_log_daily" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="log/warn/warn_daily.log" />
+    <param name="DatePattern" value="'daily.'yyyy-MM-dd'.log'" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss\} %-5p] [%t] (%c:%L) - %m%n" />
+    </layout>
+    <!--限制输出级别-->
+    <filter class="org.apache.log4j.varia.LevelRangeFilter">
+      <param name="LevelMax" value="WARN"/>
+      <param name="LevelMin" value="WARN"/>
+    </filter>
+  </appender>
+
+  <!-- 输出info到日志文件 每天一个日志  -->
+  <appender name="info_log_daily" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="log/info/info_daily.log" />
+    <param name="DatePattern" value="'daily.'yyyy-MM-dd'.log'" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss\} %-5p] [%t] (%c:%L) - %m%n" />
+    </layout>
+    <!--限制输出级别-->
+    <filter class="org.apache.log4j.varia.LevelRangeFilter">
+      <param name="LevelMax" value="INFO"/>
+      <param name="LevelMin" value="INFO"/>
+    </filter>
+  </appender>
+
+  <!-- 输出error到日志文件 每天一个日志  -->
+  <appender name="debug_log_daily" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="log/debug/debug_daily.log" />
+    <param name="DatePattern" value="'daily.'yyyy-MM-dd'.log'" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss\} %-5p] [%t] (%c:%L) - %m%n" />
+    </layout>
+    <!--限制输出级别-->
+    <filter class="org.apache.log4j.varia.LevelRangeFilter">
+      <param name="LevelMax" value="DEBUG"/>
+      <param name="LevelMin" value="DEBUG"/>
+    </filter>
   </appender>
 
   <root>
-    <priority value="${org.apache.cocoon.log4j.loglevel}"/>
-    <appender-ref ref="CORE"/>
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="error_log_daily"/>
+    <appender-ref ref="warn_log_daily"/>
+    <appender-ref ref="info_log_daily"/>
+    <appender-ref ref="debug_log_daily"/>
   </root>
+
 </log4j:configuration>

@@ -1,8 +1,8 @@
 package com.james;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by eronzen on 10/28/2016.
@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/base")
 public class TestController {
-    static {
-        System.out.print("testController start");
-    }
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @RequestMapping(value="/test")
     public void test(){
@@ -21,5 +20,14 @@ public class TestController {
         Boolean bbb = false;
         char cc = 'V';
         System.out.print("=================================================");
+
+
+
+        logger.error("this is a test for error");
+        logger.warn("this is a test for warnning");
+        logger.info("this is a test for info");
+        logger.debug("this is a test for debug");
+
+
     }
 }
