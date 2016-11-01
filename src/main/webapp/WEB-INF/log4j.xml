@@ -37,7 +37,7 @@
 
   <!-- 输出error到日志文件 每天一个日志  -->
   <appender name="error_log_daily" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="log/error/error_daily.log" />
+    <param name="File" value="${webapp.root}/WEB-INF/logs/error/error_daily.log" />
     <param name="DatePattern" value="'daily.'yyyy-MM-dd'.log'" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss\} %-5p] [%t] (%c:%L) - %m%n" />
@@ -51,7 +51,7 @@
 
   <!-- 输出warn到日志文件 每天一个日志  -->
   <appender name="warn_log_daily" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="log/warn/warn_daily.log" />
+    <param name="File" value="${webapp.root}/WEB-INF/logs/warn/warn_daily.log" />
     <param name="DatePattern" value="'daily.'yyyy-MM-dd'.log'" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss\} %-5p] [%t] (%c:%L) - %m%n" />
@@ -65,7 +65,7 @@
 
   <!-- 输出info到日志文件 每天一个日志  -->
   <appender name="info_log_daily" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="log/info/info_daily.log" />
+    <param name="File" value="${webapp.root}/WEB-INF/logs/info/info_daily.log" />
     <param name="DatePattern" value="'daily.'yyyy-MM-dd'.log'" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss\} %-5p] [%t] (%c:%L) - %m%n" />
@@ -79,7 +79,7 @@
 
   <!-- 输出error到日志文件 每天一个日志  -->
   <appender name="debug_log_daily" class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="log/debug/debug_daily.log" />
+    <param name="File" value="${webapp.root}/WEB-INF/logs/debug/debug_daily.log" />
     <param name="DatePattern" value="'daily.'yyyy-MM-dd'.log'" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss\} %-5p] [%t] (%c:%L) - %m%n" />
