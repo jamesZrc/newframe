@@ -17,6 +17,15 @@ public class SystemController extends BaseController {
     @RequestMapping("/test")
     @ResponseBody
     public UserModel test(){
-         return new UserModel();
+         return new UserModel("James");
     }
+
+    @RequestMapping ( "/showView" )
+    public ModelAndView showView() {
+        ModelAndView modelAndView = new ModelAndView("index");
+
+        modelAndView.addObject( "user",new UserModel("James"));
+        return modelAndView;
+    }
+
 }
