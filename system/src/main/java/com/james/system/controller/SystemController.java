@@ -20,7 +20,7 @@ public class SystemController extends BaseController {
          return new UserModel("James");
     }
 
-    @RequestMapping ( "/showView" )
+    @RequestMapping ( "/index" )
     public ModelAndView showView() {
         ModelAndView modelAndView = new ModelAndView("index");
 
