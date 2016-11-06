@@ -24,7 +24,7 @@ public class SystemController extends BaseController {
     public ModelAndView showView() {
         ModelAndView modelAndView = new ModelAndView("index");
 
-        modelAndView.addObject( "user",new UserModel("James"));
+        modelAndView.addObject( "user",new UserModel("Jamessssssssss"));
         return modelAndView;
     }
 

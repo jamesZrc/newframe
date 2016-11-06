@@ -9,6 +9,7 @@
     <modules>
         <module>base</module>
       <module>system</module>
+      <module>entry</module>
     </modules>
     <groupId>com.james.newframe</groupId>
   <artifactId>newframe</artifactId>
@@ -107,10 +108,16 @@
       <version>4.0.3.RELEASE</version>
     </dependency>
 
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
-    <finalName>test</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -130,6 +137,7 @@
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>
@@ -139,6 +147,7 @@
           <ignorePackaging>true</ignorePackaging>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 
