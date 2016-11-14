@@ -13,10 +13,6 @@ public class UserModel {
 
     private String address;
 
-    static {
-        System.out.print("========");
-    }
-
     public UserModel() {
     }
 
