@@ -20,4 +20,24 @@
 
     <!-- 认证成功后的处理类 -->
     <bean id="authSuccess" class="com.james.system.security.AuthenticationSuccessHandlerImpl"/>
+
+    <!-- 将多个配置文件读取到容器中，交给Spring管理 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/config/config.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- spring的属性加载器，加载properties文件中的属性 -->
+    <bean id="userModel" class="com.james.system.model.UserModel">
+        <property name="mail">
+            <value>${user.mail}</value>
+        </property>
+        <property name="address">
+            <value>${user.address}</value>
+        </property>
+    </bean>
+
 </beans>

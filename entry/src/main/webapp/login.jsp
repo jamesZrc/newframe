@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form:form action="newframe/login.do" method="post">
+    <form:form action="${pageContext.request.contextPath }/login.do" method="post">
         <table>
             <tr>
                 <td>userName:</td><td><input name="username"/></td>

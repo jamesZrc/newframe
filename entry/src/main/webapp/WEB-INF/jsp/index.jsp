@@ -11,6 +11,8 @@
     <title>Title</title>
 </head>
 <body>
- Welcome: ${user.userName}
+ <div>Welcome: ${user.userName}</div>
+ <div>mail: ${userModel.mail}</div>
+ <div>address: ${userModel.address}</div>
 </body>
 </html>
