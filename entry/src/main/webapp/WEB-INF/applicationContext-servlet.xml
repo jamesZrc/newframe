@@ -18,18 +18,6 @@
     <!-- 如果用的是spring mvc 的form标签，则配置此项时自动将crsf的token放入到一个hidden的input中，而不需要开发人员显式的写入form -->
     <bean id="requestDataValueProcessor" class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
 
-    <!-- 认证成功后的处理类 -->
-    <bean id="authSuccess" class="com.james.system.security.AuthenticationSuccessHandlerImpl"/>
-
-    <!-- 将多个配置文件读取到容器中，交给Spring管理 -->
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>/WEB-INF/config/config.properties</value>
-            </list>
-        </property>
-    </bean>
-
     <!-- spring的属性加载器，加载properties文件中的属性 -->
     <bean id="userModel" class="com.james.system.model.UserModel">
         <property name="mail">
