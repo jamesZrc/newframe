@@ -16,8 +16,6 @@ import java.io.IOException;
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-
-        String sss = "sdfsd";
         httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/sys/index.do");
     }
 }

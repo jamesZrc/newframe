@@ -12,13 +12,18 @@
     <title>Title</title>
 </head>
 <body>
-    <form:form action="${pageContext.request.contextPath }/login.do" method="post">
+
+<% if (request.getParameter("error") != null) { %>
+    <div> 登录失败</div>
+<% } %>
+
+    <form:form action="${pageContext.request.contextPath}/login.do" method="post">
         <table>
             <tr>
                 <td>userName:</td><td><input name="username"/></td>
             </tr>
             <tr>
-                <td>password:</td><td><input path="password"/></td>
+                <td>password:</td><td><input name="password"/></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" value="提交"/></td>

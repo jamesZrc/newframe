@@ -8,13 +8,14 @@
     <!-- 认证成功后的处理类 -->
     <beans:bean id="authSuccess" class="com.james.system.security.AuthenticationSuccessHandlerImpl"/>
 
-    <http security="none" pattern="/login.do" />
     <http>
         <form-login username-parameter="username" password-parameter="password"
+                    login-page="/login.jsp"
+                    login-processing-url="/login.do"
                     authentication-success-handler-ref="authSuccess"
-                    authentication-failure-url="/login?error"/>
+                    authentication-failure-url="/login.jsp?error=login_failure"/>
         <intercept-url pattern="/rest/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="*.do" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/sys/**" access="hasRole('ROLE_USER')" />
         <logout logout-url="/logout.jsp" logout-success-url="/j_spring_security_check" />
     </http>
 
