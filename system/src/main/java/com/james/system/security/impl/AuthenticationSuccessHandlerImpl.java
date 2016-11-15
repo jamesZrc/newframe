@@ -1,4 +1,4 @@
-package com.james.system.security;
+package com.james.system.security.impl;
 
 
 import org.springframework.security.core.Authentication;

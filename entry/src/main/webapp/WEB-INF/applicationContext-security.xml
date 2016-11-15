@@ -6,7 +6,7 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <!-- 认证成功后的处理类 -->
-    <beans:bean id="authSuccess" class="com.james.system.security.AuthenticationSuccessHandlerImpl"/>
+    <beans:bean id="authSuccess" class="com.james.system.security.impl.AuthenticationSuccessHandlerImpl"/>
 
 
     <!-- 将多个配置文件读取到容器中，交给Spring管理 -->
