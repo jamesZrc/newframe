@@ -39,6 +39,20 @@
     <beans:bean id="accessDecisionManager" class="com.james.system.security.impl.CustomAccessDecisionManagerImpl">
     </beans:bean>
 
+
+    <beans:bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <beans:constructor-arg  name="authenticationEntryPoint">
+            <beans:bean class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+                <beans:constructor-arg  name="loginFormUrl" value="/login.jsp"/>
+            </beans:bean>
+        </beans:constructor-arg>
+        <beans:property name="accessDeniedHandler">
+            <beans:bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+                <beans:property name="errorPage" value="/access_denied.jsp" />
+            </beans:bean>
+        </beans:property>
+    </beans:bean>
+
     <!-- 配置认证管理器 -->
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="customUserDetailsService"/>
@@ -59,8 +73,7 @@
         <logout logout-url="/logout.do"  invalidate-session="true" logout-success-url="/login.jsp" />
         <!--添加自定义的过滤器 放在FILTER_SECURITY_INTERCEPTOR之前有效  -->
         <custom-filter ref="customFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+        <custom-filter ref="exceptionTranslationFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
     </http>
-
-
 
 </beans:beans>
