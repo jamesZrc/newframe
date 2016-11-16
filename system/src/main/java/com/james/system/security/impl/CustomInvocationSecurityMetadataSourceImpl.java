@@ -43,9 +43,6 @@ public class CustomInvocationSecurityMetadataSourceImpl implements CustomInvocat
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         String url = ((FilterInvocation) o).getRequestUrl();
-        if ("/".equals(url)) {
-            return null;
-        }
         int firstQuestionMarkIndex = url.indexOf(".");
         if (firstQuestionMarkIndex != -1) {
             url = url.substring(0, firstQuestionMarkIndex);
