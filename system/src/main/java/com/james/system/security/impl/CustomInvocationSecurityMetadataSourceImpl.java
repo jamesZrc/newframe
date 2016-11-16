@@ -5,10 +5,13 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Created by eronzen on 11/15/2016.
@@ -24,37 +27,40 @@ public class CustomInvocationSecurityMetadataSourceImpl implements CustomInvocat
     }
 
     private void loadResourceDefine() {
-        Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
-        ConfigAttribute ca = new SecurityConfig("ROLE_USER");
-        atts.add(ca);
-        resourceMap.put("/**", atts);
+        Collection<ConfigAttribute> roleAdminAtts = new ArrayList<ConfigAttribute>();
+        ConfigAttribute roleAdmin = new SecurityConfig("ROLE_ADMIN");
+        roleAdminAtts.add(roleAdmin);
+        resourceMap.put("/rest/**", roleAdminAtts);
+
+        Collection<ConfigAttribute> roleUserAtts = new ArrayList<ConfigAttribute>();
+        ConfigAttribute roleUser = new SecurityConfig("ROLE_USER");
+        roleUserAtts.add(roleUser);
+        roleUserAtts.add(roleAdmin);
+        resourceMap.put("/", roleUserAtts);
     }
 
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         String url = ((FilterInvocation) o).getRequestUrl();
-        if("/".equals(url)){
+        if ("/".equals(url)) {
             return null;
         }
         int firstQuestionMarkIndex = url.indexOf(".");
-        if(firstQuestionMarkIndex != -1){
-            url = url.substring(0,firstQuestionMarkIndex);
+        if (firstQuestionMarkIndex != -1) {
+            url = url.substring(0, firstQuestionMarkIndex);
         }
 
         Iterator<String> ite = resourceMap.keySet().iterator();
         //取到请求的URL后与上面取出来的资源做比较
+        PathMatcher pathMatcher = new AntPathMatcher();
         while (ite.hasNext()) {
             String resURL = ite.next();
-            if(this.pathMatchesUrl(url, resURL)){
+            if (pathMatcher.match(resURL, url)) {
                 return resourceMap.get(resURL);
             }
         }
         return null;
-    }
-
-    private boolean pathMatchesUrl(String pattern, String target){
-        return true;
     }
 
     @Override

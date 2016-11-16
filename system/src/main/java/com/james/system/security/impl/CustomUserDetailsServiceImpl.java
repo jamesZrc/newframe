@@ -16,19 +16,22 @@ import java.util.List;
  * Created by eronzen on 11/15/2016.
  */
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        UserModel user = new UserModel("james");
 
-        user.setPassword("james");
-
-        if (null == user) {
-            throw new UsernameNotFoundException("用户不存在");
-        }
-
+        UserModel user = new UserModel();
         Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 
-        auths.add(new GrantedAuthorityImpl("ROLE_USER"));
+        if("admin".equals(s)){
+            user.setUserName("admin");
+            user.setPassword("admin");
+            auths.add(new GrantedAuthorityImpl("ROLE_ADMIN"));
+        } else{
+            user.setUserName("james");
+            user.setPassword("james");
+            auths.add(new GrantedAuthorityImpl("ROLE_USER"));
+        }
 
         user.setAuths(auths);
         return user;

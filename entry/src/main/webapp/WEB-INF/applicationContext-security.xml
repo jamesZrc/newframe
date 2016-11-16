@@ -56,8 +56,6 @@
                     login-processing-url="/login.do"
                     authentication-success-handler-ref="authSuccess"
                     authentication-failure-url="/login.jsp?error=login_failure"/>
-        <intercept-url pattern="/rest/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/**/*.do" access="hasRole('ROLE_USER')" />
         <logout logout-url="/logout.do"  invalidate-session="true" logout-success-url="/login.jsp" />
         <!--添加自定义的过滤器 放在FILTER_SECURITY_INTERCEPTOR之前有效  -->
         <custom-filter ref="customFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
