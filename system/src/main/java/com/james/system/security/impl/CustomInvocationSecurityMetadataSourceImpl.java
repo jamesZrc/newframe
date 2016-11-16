@@ -16,7 +16,7 @@ import java.util.*;
 @Service("customInvocationSecurityMetadataSource")
 public class CustomInvocationSecurityMetadataSourceImpl implements CustomInvocationSecurityMetadataSource {
 
-    private static HashMap<String, Collection<ConfigAttribute>> resourceMap = null;
+    private static final HashMap<String, Collection<ConfigAttribute>> resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
 
     @PostConstruct
     public void init() {
@@ -24,12 +24,10 @@ public class CustomInvocationSecurityMetadataSourceImpl implements CustomInvocat
     }
 
     private void loadResourceDefine() {
-        resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
         Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
         ConfigAttribute ca = new SecurityConfig("ROLE_USER");
         atts.add(ca);
         resourceMap.put("/**", atts);
-
     }
 
 

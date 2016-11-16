@@ -18,7 +18,9 @@ import java.util.List;
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        UserModel user = new UserModel("James");
+        UserModel user = new UserModel("james");
+
+        user.setPassword("james");
 
         if (null == user) {
             throw new UsernameNotFoundException("用户不存在");
@@ -26,7 +28,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
         Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 
-        auths.add(new GrantedAuthorityImpl("ROLT_USER"));
+        auths.add(new GrantedAuthorityImpl("ROLE_USER"));
 
         user.setAuths(auths);
         return user;
