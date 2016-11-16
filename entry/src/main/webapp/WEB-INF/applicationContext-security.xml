@@ -30,6 +30,26 @@
         <beans:property name="dataSource" ref="dataSource" />
     </beans:bean>
 
+    <beans:bean id="customUserDetailsService" class="com.james.system.security.impl.CustomUserDetailsServiceImpl">
+    </beans:bean>
+
+    <beans:bean id="securityMetadataSource" class="com.james.system.security.impl.CustomInvocationSecurityMetadataSourceImpl">
+    </beans:bean>
+
+    <beans:bean id="accessDecisionManager" class="com.james.system.security.impl.CustomAccessDecisionManagerImpl">
+    </beans:bean>
+
+    <!-- 配置认证管理器 -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="customUserDetailsService"/>
+    </authentication-manager>
+
+    <beans:bean id="customFilterSecurityInterceptor" class="com.james.system.security.impl.CustomFilterSecurityInterceptorImpl">
+        <beans:property name="securityMetadataSource" ref="securityMetadataSource"/>
+        <beans:property name="accessDecisionManager" ref="accessDecisionManager"/>
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+    </beans:bean>
+
     <http auto-config="true">
         <form-login username-parameter="username" password-parameter="password"
                     login-page="/login.jsp"
@@ -38,11 +58,11 @@
                     authentication-failure-url="/login.jsp?error=login_failure"/>
         <intercept-url pattern="/rest/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/**/*.do" access="hasRole('ROLE_USER')" />
-        <logout logout-url="/logout.do"  invalidate-session="true" logout-success-url="/login.jsp"  />
+        <logout logout-url="/logout.do"  invalidate-session="true" logout-success-url="/login.jsp" />
+        <!--添加自定义的过滤器 放在FILTER_SECURITY_INTERCEPTOR之前有效  -->
+        <custom-filter ref="customFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
     </http>
 
-    <authentication-manager>
-        <authentication-provider user-service-ref="userDetailsService" />
-    </authentication-manager>
+
 
 </beans:beans>
