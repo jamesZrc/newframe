@@ -64,16 +64,24 @@
         <beans:property name="authenticationManager" ref="authenticationManager"/>
     </beans:bean>
 
-    <http auto-config="true">
+    <!-- AuthenticationEntryPoint，引导用户进行登录 -->
+    <beans:bean id="authEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:constructor-arg name="loginFormUrl" value="/login.jsp"/>
+    </beans:bean>
+
+    <http auto-config="true" entry-point-ref="authEntryPoint">
         <form-login username-parameter="username" password-parameter="password"
                     login-page="/login.jsp"
                     login-processing-url="/login.do"
                     authentication-success-handler-ref="authSuccess"
                     authentication-failure-url="/login.jsp?error=login_failure"/>
-        <logout logout-url="/logout.do"  invalidate-session="true" logout-success-url="/login.jsp" />
+        <logout logout-url="/logout.do"  invalidate-session="true" logout-success-url="/login.jsp" delete-cookies="JSESSIONID"/>
+
         <!--添加自定义的过滤器 放在FILTER_SECURITY_INTERCEPTOR之前有效  -->
         <custom-filter ref="customFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
         <custom-filter ref="exceptionTranslationFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
     </http>
+
+
 
 </beans:beans>

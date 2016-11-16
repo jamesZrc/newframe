@@ -32,14 +32,12 @@ public class CustomAccessDecisionManagerImpl implements CustomAccessDecisionMana
             String needRole = ((SecurityConfig) ca).getAttribute();
             //gra 为用户所被赋予的权限，needRole为访问相应的资源应具有的权限
             for (GrantedAuthority gra : authentication.getAuthorities()) {
-                if (needRole.trim().equals(gra.getAuthority().trim()) || "ROLE_ANONYMOUS".equals(gra.getAuthority().trim())) {
+                if (needRole.trim().equals(gra.getAuthority().trim())) {
                     return;
                 }
             }
         }
         throw new AccessDeniedException("Access Denied");
-
-
     }
 
     @Override

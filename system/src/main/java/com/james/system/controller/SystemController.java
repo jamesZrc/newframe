@@ -2,7 +2,9 @@ package com.james.system.controller;
 
 import com.james.controller.base.controller.BaseController;
 import com.james.system.model.UserModel;
+import com.james.system.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,8 +28,8 @@ public class SystemController extends BaseController {
 
     @RequestMapping("/test")
     @ResponseBody
-    public UserModel test(){
-         return new UserModel("James");
+    public Object test(){
+         return SecurityUtil.getCurrentUser();
     }
 
     @RequestMapping ( "/index" )
