@@ -2,6 +2,7 @@ package com.james.system.controller;
 
 import com.james.controller.base.controller.BaseController;
 import com.james.system.model.UserModel;
+import com.james.system.service.UserService;
 import com.james.system.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,8 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * Created by eronzen on 10/28/2016.
  */
@@ -19,17 +22,15 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/sys")
 public class SystemController extends BaseController {
 
-    @Autowired
-    private UserModel userModel;
 
-    public UserModel getUserModel() {
-        return userModel;
-    }
+    @Autowired
+    private UserService userService;
+
 
     @RequestMapping("/test")
     @ResponseBody
-    public Object test(){
-         return SecurityUtil.getCurrentUser();
+    public List<UserModel> test(){
+         return userService.getUsers();
     }
 
     @RequestMapping ( "/index" )
@@ -40,7 +41,7 @@ public class SystemController extends BaseController {
 
 
         WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
-        modelAndView.addObject("userModel", userModel);
+        modelAndView.addObject("userModel", SecurityUtil.getCurrentUser());
 
 
         return modelAndView;

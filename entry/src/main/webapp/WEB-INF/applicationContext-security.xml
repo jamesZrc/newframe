@@ -90,4 +90,22 @@
         <custom-filter ref="exceptionTranslationFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
     </http>
 
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <beans:property name="dataSource" ref="dataSource" />
+        <!-- 自动扫描mapping.xml文件 -->
+        <beans:property name="mapperLocations" value="WEB-INF/sql-mapping/*.xml"></beans:property>
+    </beans:bean>
+
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+    <beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <beans:property name="basePackage" value="com.james.*.dao" />
+        <beans:property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></beans:property>
+    </beans:bean>
+
+    <beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <beans:constructor-arg index="0" ref="sqlSessionFactory" />
+        <beans:constructor-arg index="1" value="BATCH" /> <!--如果想要进行批量操作可加入这个属性 -->
+    </beans:bean>
+
 </beans:beans>

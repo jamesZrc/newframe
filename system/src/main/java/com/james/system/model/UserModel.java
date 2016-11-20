@@ -10,6 +10,8 @@ import java.util.Collection;
  */
 public class UserModel implements UserDetails{
 
+    private int id;
+
     private  String userName;
 
     private String password;
@@ -27,6 +29,14 @@ public class UserModel implements UserDetails{
         this.userName = userName;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getUserName() {
 
         return userName;
@@ -35,6 +45,8 @@ public class UserModel implements UserDetails{
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
