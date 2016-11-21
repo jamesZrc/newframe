@@ -1,111 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-             xmlns:beans="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
+             xmlns:security="http://www.springframework.org/schema/security"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+                                 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- HttpSessionCsrfTokenRepository是把token放到session中来存取   -->
+    <bean id="csrfFilter" class="org.springframework.security.web.csrf.CsrfFilter">
+        <constructor-arg>
+            <bean class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"/>
+        </constructor-arg>
+    </bean>
+
+    <!-- 如果用的是spring mvc 的form标签，则配置此项时自动将crsf的token放入到一个hidden的input中，而不需要开发人员显式的写入form -->
+    <bean id="requestDataValueProcessor" class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
+
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver.class.name}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
 
     <!-- 认证成功后的处理类 -->
-    <beans:bean id="authSuccess" class="com.james.system.security.impl.AuthenticationSuccessHandlerImpl"/>
+    <bean id="authSuccess" class="com.james.system.security.impl.AuthenticationSuccessHandlerImpl"/>
 
+    <bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
 
-    <!-- 将多个配置文件读取到容器中，交给Spring管理 -->
-    <beans:bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <beans:property name="locations">
-            <beans:list>
-                <beans:value>/WEB-INF/config/config.properties</beans:value>
-                <beans:value>/WEB-INF/config/jdbc.properties</beans:value>
-            </beans:list>
-        </beans:property>
-    </beans:bean>
+    <bean id="customUserDetailsService" class="com.james.system.security.impl.CustomUserDetailsServiceImpl"/>
 
-    <beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <beans:property name="driverClassName" value="${jdbc.driver.class.name}"/>
-        <beans:property name="url" value="${jdbc.url}"/>
-        <beans:property name="username" value="${jdbc.username}"/>
-        <beans:property name="password" value="${jdbc.password}"/>
-    </beans:bean>
+    <bean id="securityMetadataSource" class="com.james.system.security.impl.CustomInvocationSecurityMetadataSourceImpl"/>
 
-    <beans:bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
-        <beans:property name="dataSource" ref="dataSource" />
-    </beans:bean>
+    <bean id="accessDecisionManager" class="com.james.system.security.impl.CustomAccessDecisionManagerImpl"/>
 
-    <beans:bean id="customUserDetailsService" class="com.james.system.security.impl.CustomUserDetailsServiceImpl">
-    </beans:bean>
-
-    <beans:bean id="securityMetadataSource" class="com.james.system.security.impl.CustomInvocationSecurityMetadataSourceImpl">
-    </beans:bean>
-
-    <beans:bean id="accessDecisionManager" class="com.james.system.security.impl.CustomAccessDecisionManagerImpl">
-    </beans:bean>
-
-
-    <beans:bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
-        <beans:constructor-arg  name="authenticationEntryPoint">
-            <beans:bean class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-                <beans:constructor-arg  name="loginFormUrl" value="/login.jsp"/>
-            </beans:bean>
-        </beans:constructor-arg>
-        <beans:property name="accessDeniedHandler">
-            <beans:bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
-                <beans:property name="errorPage" value="/access_denied.jsp" />
-            </beans:bean>
-        </beans:property>
-    </beans:bean>
+    <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <constructor-arg  name="authenticationEntryPoint">
+            <bean class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+                <constructor-arg  name="loginFormUrl" value="/login.jsp"/>
+            </bean>
+        </constructor-arg>
+        <property name="accessDeniedHandler">
+            <bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+                <property name="errorPage" value="/access_denied.jsp" />
+            </bean>
+        </property>
+    </bean>
 
     <!-- 配置认证管理器 -->
-    <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="customUserDetailsService"/>
-    </authentication-manager>
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref="customUserDetailsService"/>
+    </security:authentication-manager>
 
-    <beans:bean id="customFilterSecurityInterceptor" class="com.james.system.security.impl.CustomFilterSecurityInterceptorImpl">
-        <beans:property name="securityMetadataSource" ref="securityMetadataSource"/>
-        <beans:property name="accessDecisionManager" ref="accessDecisionManager"/>
-        <beans:property name="authenticationManager" ref="authenticationManager"/>
-    </beans:bean>
+    <bean id="customFilterSecurityInterceptor" class="com.james.system.security.impl.CustomFilterSecurityInterceptorImpl">
+        <property name="securityMetadataSource" ref="securityMetadataSource"/>
+        <property name="accessDecisionManager" ref="accessDecisionManager"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
 
     <!-- AuthenticationEntryPoint，引导用户进行登录 -->
-    <beans:bean id="authEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <beans:constructor-arg name="loginFormUrl" value="/login.jsp"/>
-    </beans:bean>
+    <bean id="authEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <constructor-arg name="loginFormUrl" value="/login.jsp"/>
+    </bean>
 
-    <beans:bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
-        <beans:property name="authenticationManager" ref="authenticationManager" />
-        <beans:property name="usernameParameter" value="username"/>
-        <beans:property name="passwordParameter" value="password"/>
-        <beans:property name="authenticationSuccessHandler"  ref="authSuccess"/>
-        <beans:property name="authenticationFailureHandler">
-            <beans:bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-                <beans:property name="defaultFailureUrl"  value="/login.jsp?error=login_failure"/>
-            </beans:bean>
-        </beans:property>
-        <beans:property name="filterProcessesUrl" value="/login.do" />
-    </beans:bean>
+    <bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="usernameParameter" value="username"/>
+        <property name="passwordParameter" value="password"/>
+        <property name="authenticationSuccessHandler"  ref="authSuccess"/>
+        <property name="authenticationFailureHandler">
+            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <property name="defaultFailureUrl"  value="/login.jsp?error=login_failure"/>
+            </bean>
+        </property>
+        <property name="filterProcessesUrl" value="/login.do" />
+    </bean>
 
-    <http entry-point-ref="authEntryPoint">
-        <logout logout-url="/logout.do"  invalidate-session="true" logout-success-url="/login.jsp" delete-cookies="JSESSIONID"/>
-        <custom-filter ref="authenticationFilter" before="FORM_LOGIN_FILTER" />
+    <security:http entry-point-ref="authEntryPoint">
+        <security:logout logout-url="/logout.do"  invalidate-session="true" logout-success-url="/login.jsp" delete-cookies="JSESSIONID"/>
+        <security:custom-filter ref="authenticationFilter" before="FORM_LOGIN_FILTER" />
         <!--添加自定义的过滤器 放在FILTER_SECURITY_INTERCEPTOR之前有效  -->
-        <custom-filter ref="customFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
-        <custom-filter ref="exceptionTranslationFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
-    </http>
+        <security:custom-filter ref="customFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+        <security:custom-filter ref="exceptionTranslationFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
+    </security:http>
 
-    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
-    <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <beans:property name="dataSource" ref="dataSource" />
-        <!-- 自动扫描mapping.xml文件 -->
-        <beans:property name="mapperLocations" value="WEB-INF/sql-mapping/*.xml"></beans:property>
-    </beans:bean>
 
-    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
-    <beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <beans:property name="basePackage" value="com.james.*.dao" />
-        <beans:property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></beans:property>
-    </beans:bean>
-
-    <beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-        <beans:constructor-arg index="0" ref="sqlSessionFactory" />
-        <beans:constructor-arg index="1" value="BATCH" /> <!--如果想要进行批量操作可加入这个属性 -->
-    </beans:bean>
-
-</beans:beans>
+</beans>
