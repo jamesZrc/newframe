@@ -3,7 +3,6 @@
 
     <display-name>newframe</display-name>
 
-
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext-security.xml</param-value>
