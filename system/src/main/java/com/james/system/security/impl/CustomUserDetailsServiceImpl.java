@@ -1,6 +1,7 @@
 package com.james.system.security.impl;
 
 import com.james.system.dao.UserDao;
+import com.james.system.dao.impl.UserDaoImpl;
 import com.james.system.model.UserModel;
 import com.james.system.security.CustomUserDetailsService;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,8 +19,8 @@ import java.util.Collection;
 @Service("customUserDetailsService")
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
-    @Resource
-    private UserDao userDao;
+    @Resource(name="userSecurityDao")
+    private UserDaoImpl userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
