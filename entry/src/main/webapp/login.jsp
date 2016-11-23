@@ -23,7 +23,7 @@
                 <td>userName:</td><td><input name="username" value="james"/></td>
             </tr>
             <tr>
-                <td>password:</td><td><input name="password" type="password" value="james"/></td>
+                <td>password:</td><td><input name="password" type="password" value="1234"/></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" value="提交"/></td>

@@ -4,6 +4,7 @@ import com.james.system.dao.UserDao;
 import com.james.system.dao.impl.UserDaoImpl;
 import com.james.system.model.UserModel;
 import com.james.system.security.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,7 +20,7 @@ import java.util.Collection;
 @Service("customUserDetailsService")
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
-    @Resource(name="userSecurityDao")
+    @Autowired
     private UserDaoImpl userDao;
 
     @Override
