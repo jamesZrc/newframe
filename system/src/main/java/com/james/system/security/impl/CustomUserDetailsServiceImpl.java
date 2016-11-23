@@ -24,7 +24,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserModel user = new UserModel();
+        UserModel user = userDao.getUserByUsername(username);
 
         Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
         auths.add(new GrantedAuthorityImpl("ROLE_USER"));
