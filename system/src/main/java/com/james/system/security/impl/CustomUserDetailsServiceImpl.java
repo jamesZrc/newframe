@@ -3,7 +3,6 @@ package com.james.system.security.impl;
 import com.james.system.dao.UserDao;
 import com.james.system.model.UserModel;
 import com.james.system.security.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,17 +19,12 @@ import java.util.Collection;
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
     @Resource
-    @Qualifier("userDaoImpl")
     private UserDao userDao;
-
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserModel user = userDao.getUserByUsername(username);
+        UserModel user = new UserModel();
 
         Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
         auths.add(new GrantedAuthorityImpl("ROLE_USER"));
