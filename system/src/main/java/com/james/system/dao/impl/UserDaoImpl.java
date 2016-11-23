@@ -2,6 +2,7 @@ package com.james.system.dao.impl;
 
 import com.james.system.dao.UserDao;
 import com.james.system.model.UserModel;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,11 +10,17 @@ import java.util.List;
 /**
  * Created by James on 2016/11/20.
  */
-@Repository
+@Repository("userDaoImpl")
 public class UserDaoImpl extends BaseDaoImpl<UserModel> implements UserDao{
 
     @Override
     public List<UserModel> getUsers() {
-        return sqlSession.selectList(super.getSqlName("getUsers"), UserModel.class);
+        return sqlSession.selectList(super.getSqlName("getUsers"));
+    }
+
+    @Override
+    public UserModel getUserByUsername(String username) {
+        UserModel sss = sqlSession.selectOne(super.getSqlName("getUserByUsername"), username);
+        return sqlSession.selectOne(super.getSqlName("getUserByUsername"), username);
     }
 }

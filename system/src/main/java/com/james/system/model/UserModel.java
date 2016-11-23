@@ -10,103 +10,90 @@ import java.util.Collection;
  */
 public class UserModel implements UserDetails{
 
-    private int id;
+    private Long id;
 
-    private  String userName;
+    private String username;
 
     private String password;
 
-    private String mail;
+    private boolean enabled;
 
-    private String address;
+    private boolean accountNonExpired;
 
-    private Collection<GrantedAuthority> auths;
+    private boolean credentialsNonExpired;
 
-    public UserModel() {
-    }
+    private boolean accountNonLocked;
 
-    public UserModel(String userName) {
-        this.userName = userName;
-    }
+    private Collection<GrantedAuthority> authorities;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUserName() {
-
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.auths;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     @Override
     public String getUsername() {
-        return this.userName;
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getMail() {
-        return mail;
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
-    public String getAddress() {
-        return address;
+    @Override
+    public boolean isAccountNonExpired() {
+        return accountNonExpired;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
     }
 
-    public Collection<GrantedAuthority> getAuths() {
-        return auths;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return credentialsNonExpired;
     }
 
-    public void setAuths(Collection<GrantedAuthority> auths) {
-        this.auths = auths;
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 }

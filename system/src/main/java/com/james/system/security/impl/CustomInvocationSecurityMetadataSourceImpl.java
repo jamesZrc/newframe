@@ -39,7 +39,6 @@ public class CustomInvocationSecurityMetadataSourceImpl implements CustomInvocat
         resourceMap.put("/", roleUserAtts);
     }
 
-
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         String url = ((FilterInvocation) o).getRequestUrl();
