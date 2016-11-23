@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * Created by James on 2016/11/20.
  */
-public interface UserDao {
+public interface UserDao extends  BaseDao<UserModel>{
 
-    public List<UserModel> getUsers();
+     List<UserModel> getUsers();
 
 }
