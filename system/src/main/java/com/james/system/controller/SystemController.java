@@ -40,7 +40,7 @@ public class SystemController extends BaseController {
         modelAndView.addObject( "users", userService.getUsers());
 
         WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
-        modelAndView.addObject("userModel", SecurityUtil.getCurrentUser());
+        modelAndView.addObject("currentUser", SecurityUtil.getCurrentUser());
 
 
         return modelAndView;

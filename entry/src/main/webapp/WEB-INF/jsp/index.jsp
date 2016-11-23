@@ -13,14 +13,9 @@
     <title>Title</title>
 </head>
 <body>
- <div>Welcome: ${user.userName}</div>
+ <div>Welcome: ${currentUser.userName}</div>
 
  <table>
-     <th>
-         <td>用户名</td>
-         <td>密码</td>
-     </th>
-
      <c:forEach items="${users}" var="user">
         <tr>
             <td>${user.userName}</td>
