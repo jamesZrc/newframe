@@ -1,8 +1,8 @@
 package com.james.system.security.impl;
 
-import com.james.system.mapper.UserMapper;
 import com.james.system.model.UserModel;
 import com.james.system.security.CustomUserDetailsService;
+import com.james.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +19,12 @@ import java.util.Collection;
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserModel user = userMapper.getUserByUsername(username);
+        UserModel user = userService.getUserByUsername(username);
 
         Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
         auths.add(new GrantedAuthorityImpl("ROLE_USER"));
