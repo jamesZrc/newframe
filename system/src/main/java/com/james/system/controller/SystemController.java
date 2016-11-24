@@ -37,11 +37,12 @@ public class SystemController extends BaseController {
     public ModelAndView showView() {
         ModelAndView modelAndView = new ModelAndView("index");
 
-        modelAndView.addObject( "users", userService.getUsers());
+        List<UserModel> users = userService.getUsers();
+
+        modelAndView.addObject( "users", users);
 
         WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
         modelAndView.addObject("currentUser", SecurityUtil.getCurrentUser());
-
 
         return modelAndView;
     }

@@ -18,11 +18,11 @@ public class UserModel implements UserDetails{
 
     private boolean enabled;
 
-    private boolean accountNonExpired = true;
+    private boolean accountNonExpired;
 
-    private boolean credentialsNonExpired = true;
+    private boolean credentialsNonExpired;
 
-    private boolean accountNonLocked = true;
+    private boolean accountNonLocked;
 
     private Collection<GrantedAuthority> authorities;
 
