@@ -21,7 +21,7 @@ import java.util.Collection;
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
     @Autowired
-    private UserDaoImpl userDao;
+    private UserDao userDao;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

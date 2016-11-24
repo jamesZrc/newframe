@@ -36,6 +36,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     protected String getSqlName(String sqlName) {
+        String className = this.clazz.getName();
         return this.clazz.getName().concat(".").concat(sqlName);
     }
 }

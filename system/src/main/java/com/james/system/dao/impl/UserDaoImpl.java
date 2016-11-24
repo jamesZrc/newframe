@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by James on 2016/11/20.
  */
-@Repository("userDaoImpl")
+@Repository
 public class UserDaoImpl extends BaseDaoImpl<UserModel> implements UserDao{
 
     @Override
