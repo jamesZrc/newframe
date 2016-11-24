@@ -1,6 +1,11 @@
 package com.james.system.security.impl;
 
+import com.james.system.model.ResourceModel;
+import com.james.system.model.RoleModel;
 import com.james.system.security.CustomInvocationSecurityMetadataSource;
+import com.james.system.service.ResourceService;
+import com.james.system.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -9,10 +14,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Created by eronzen on 11/15/2016.
@@ -22,22 +24,36 @@ public class CustomInvocationSecurityMetadataSourceImpl implements CustomInvocat
 
     private static final HashMap<String, Collection<ConfigAttribute>> resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
 
+    @Autowired
+    private ResourceService resourceService;
+
+    @Autowired
+    private RoleService roleService;
+
     @PostConstruct
     public void init() {
         loadResourceDefine();
     }
 
     private void loadResourceDefine() {
-        Collection<ConfigAttribute> roleAdminAtts = new ArrayList<ConfigAttribute>();
-        ConfigAttribute roleAdmin = new SecurityConfig("ROLE_ADMIN");
-        roleAdminAtts.add(roleAdmin);
-        resourceMap.put("/rest/**", roleAdminAtts);
 
-        Collection<ConfigAttribute> roleUserAtts = new ArrayList<ConfigAttribute>();
-        ConfigAttribute roleUser = new SecurityConfig("ROLE_USER");
-        roleUserAtts.add(roleUser);
-        roleUserAtts.add(roleAdmin);
-        resourceMap.put("/", roleUserAtts);
+        List<RoleModel> roles = roleService.getRoles();
+
+        for (RoleModel role : roles) {
+            List<ResourceModel> resources = resourceService.getResourcesByRole(role);
+            for (ResourceModel resource : resources) {
+                Collection<ConfigAttribute> configAttributes;
+                if (resourceMap.containsKey(resource.getResource())) {
+                    configAttributes = resourceMap.get(resource.getResource());
+                } else {
+                    configAttributes = new ArrayList<ConfigAttribute>();
+                    resourceMap.put(resource.getResource(), configAttributes);
+                }
+                configAttributes.add(new SecurityConfig(role.getName()));
+            }
+
+        }
+
     }
 
     @Override

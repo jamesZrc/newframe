@@ -8,9 +8,7 @@ import java.util.Collection;
 /**
  * Created by james on 2016/11/2.
  */
-public class UserModel implements UserDetails{
-
-    private Long id;
+public class UserModel extends BaseModel implements UserDetails{
 
     private String username;
 
@@ -25,14 +23,6 @@ public class UserModel implements UserDetails{
     private boolean accountNonLocked;
 
     private Collection<GrantedAuthority> authorities;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public String getUsername() {
