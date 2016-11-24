@@ -1,6 +1,6 @@
 package com.james.system.service.impl;
 
-import com.james.system.dao.UserDao;
+import com.james.system.mapper.UserMapper;
 import com.james.system.model.UserModel;
 import com.james.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +15,15 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     @Override
     public List<UserModel> getUsers() {
-        return userDao.getUsers();
+        return userMapper.getUsers();
     }
 
     @Override
     public UserModel getUserByUsername(String username) {
-        return userDao.getUserByUsername(username);
+        return userMapper.getUserByUsername(username);
     }
 }

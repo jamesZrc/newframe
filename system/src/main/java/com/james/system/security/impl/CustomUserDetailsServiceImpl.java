@@ -1,7 +1,6 @@
 package com.james.system.security.impl;
 
-import com.james.system.dao.UserDao;
-import com.james.system.dao.impl.UserDaoImpl;
+import com.james.system.mapper.UserMapper;
 import com.james.system.model.UserModel;
 import com.james.system.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -21,12 +19,12 @@ import java.util.Collection;
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserModel user = userDao.getUserByUsername(username);
+        UserModel user = userMapper.getUserByUsername(username);
 
         Collection<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
         auths.add(new GrantedAuthorityImpl("ROLE_USER"));
