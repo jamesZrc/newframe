@@ -29,5 +29,7 @@
      <input type="submit" value="退出"/></td>
  </form:form>
 
+<a href="${pageContext.request.contextPath}/register/index.do">注册</a>
+
 </body>
 </html>
