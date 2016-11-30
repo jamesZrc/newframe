@@ -8,6 +8,7 @@ import com.james.system.service.RoleService;
 import com.james.system.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +27,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private Properties myProperties;
+    @Value("${user.default.role}")
+    private String defaultRole;
 
     @Autowired
     private RoleService roleService;
@@ -44,8 +45,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserModel save(UserModel userModel) {
-        String defaultRole = "ROLE_USER";
-
         RoleModel roleModel = roleService.getRoleByRoleName(defaultRole);
 
         UserModel model = this.getUserByUsername(userModel.getUsername());
