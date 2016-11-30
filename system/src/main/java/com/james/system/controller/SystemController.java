@@ -3,14 +3,12 @@ package com.james.system.controller;
 import com.james.controller.base.controller.BaseController;
 import com.james.system.model.UserModel;
 import com.james.system.service.UserService;
-import com.james.system.utils.SecurityUtil;
+import com.james.system.utils.Conf;
+import com.james.system.utils.Context;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -41,8 +39,9 @@ public class SystemController extends BaseController {
 
         modelAndView.addObject( "users", users);
 
-        WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
-        modelAndView.addObject("currentUser", SecurityUtil.getCurrentUser());
+        String defaultRole = Conf.get("user.default.role");
+
+        modelAndView.addObject("currentUser", Context.getCurrentUser());
 
         return modelAndView;
     }
