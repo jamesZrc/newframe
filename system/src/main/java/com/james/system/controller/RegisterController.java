@@ -5,6 +5,7 @@ import com.james.system.dto.UserDto;
 import com.james.system.model.UserModel;
 import com.james.system.service.UserService;
 import com.james.system.utils.SecurityUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,11 +37,15 @@ public class RegisterController extends BaseController {
 
     @RequestMapping ( "/add" )
     @ResponseBody
-    public UserDto addUser(UserDto userDto) {
-
-
-
-      return userDto;
+    public UserModel addUser(UserDto userDto) {
+        UserModel userModel = new UserModel();
+        BeanUtils.copyProperties(userDto, userModel);
+        userModel.setEnabled(true);
+        userModel.setUsername(userDto.getUserName());
+        userModel.setCredentialsNonExpired(true);
+        userModel.setAccountNonLocked(true);
+        userModel.setAccountNonExpired(true);
+      return userService.save(userModel);
     }
 
 }

@@ -13,4 +13,6 @@ public interface UserService {
 
     UserModel getUserByUsername(String username);
 
+    UserModel save(UserModel userModel);
+
 }

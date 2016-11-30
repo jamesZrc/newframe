@@ -10,4 +10,10 @@
     <select id="getUserByUsername" parameterType="java.lang.String" resultType="com.james.system.model.UserModel">
         SELECT * FROM USERS WHERE username = #{username}
     </select>
+
+    <insert id="save" parameterType="com.james.system.model.UserModel" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users(username, password, enabled, account_non_expired, credentials_non_expired, account_non_locked)
+        VALUES
+        (#{username}, #{password}, #{enabled}, #{accountNonExpired}, #{credentialsNonExpired}, #{accountNonLocked})
+    </insert>
 </mapper>

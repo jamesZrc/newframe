@@ -13,4 +13,6 @@ public interface UserDao extends  BaseDao{
 
      UserModel getUserByUsername(String username);
 
+     void save(UserModel userModel);
+
 }
