@@ -12,4 +12,8 @@
           SELECT ROLE_ID FROM USER_ROLE WHERE USER_ID = #{id}
         )
     </select>
+
+    <select id="getRoleByRoleName" parameterType="String" resultType="com.james.system.model.RoleModel">
+       SELECT * FROM ROLES WHERE NAME = #{roleName}
+    </select>
 </mapper>

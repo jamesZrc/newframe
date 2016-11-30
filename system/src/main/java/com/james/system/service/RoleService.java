@@ -13,4 +13,6 @@ public interface RoleService {
     List<RoleModel> getRoles();
 
     List<RoleModel> getRolesByUser(UserModel user);
+
+    RoleModel getRoleByRoleName(String roleName);
 }

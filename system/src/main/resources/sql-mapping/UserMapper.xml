@@ -16,4 +16,10 @@
         VALUES
         (#{username}, #{password}, #{enabled}, #{accountNonExpired}, #{credentialsNonExpired}, #{accountNonLocked})
     </insert>
+
+    <insert id="saveUserRole" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_role(user_id, role_id)
+        VALUES
+        (#{userId}, #{roleId})
+    </insert>
 </mapper>

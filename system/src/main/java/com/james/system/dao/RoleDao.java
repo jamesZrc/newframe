@@ -14,4 +14,6 @@ public interface RoleDao extends BaseDao {
 
     List<RoleModel> getRolesByUser(UserModel user);
 
+    RoleModel getRoleByRoleName(String roleName);
+
 }
