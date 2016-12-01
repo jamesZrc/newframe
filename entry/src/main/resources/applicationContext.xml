@@ -10,22 +10,6 @@
             http://www.springframework.org/schema/mvc
             http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-  <!-- 将多个配置文件读取到容器中，交给Spring管理 -->
-  <bean id="propertyConfigurer" class="com.james.common.utils.CustomizedPropertyConfigurer">
-    <property name="locations">
-      <list>
-        <value>/WEB-INF/config/config.properties</value>
-        <value>/WEB-INF/config/jdbc.properties</value>
-        <value>classpath*:config/redis.properties</value>
-      </list>
-    </property>
-  </bean>
-
-  <import resource="applicationContext-jdbc.xml"/>
-  <import resource="applicationContext-mybatis.xml"/>
-  <import resource="applicationContext-redis.xml"/>
-  <import resource="applicationContext-transaction.xml"/>
-
   <mvc:annotation-driven/>
   <context:component-scan base-package="com.**"/>
 

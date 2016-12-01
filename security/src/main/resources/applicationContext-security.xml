@@ -5,7 +5,6 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                                  http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <import resource="applicationContext-mybatis.xml"/>
     <!-- HttpSessionCsrfTokenRepository是把token放到session中来存取   -->
     <bean id="csrfFilter" class="org.springframework.security.web.csrf.CsrfFilter">
         <constructor-arg>
