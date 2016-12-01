@@ -7,9 +7,15 @@
 
   <name>newframe</name>
     <modules>
-        <module>base</module>
       <module>system</module>
       <module>entry</module>
+      <module>cache-redis</module>
+      <module>common-utils</module>
+      <module>security</module>
+      <module>mybatis-dao</module>
+      <module>model</module>
+      <module>service</module>
+      <module>controller</module>
     </modules>
     <groupId>com.james.newframe</groupId>
   <artifactId>newframe</artifactId>
@@ -109,24 +115,6 @@
       <version>2.6.1</version>
     </dependency>
     <!-- JSON end-->
-
-    <!-- spring security start-->
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-config</artifactId>
-      <version>4.0.3.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-core</artifactId>
-      <version>4.0.3.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-web</artifactId>
-      <version>4.0.3.RELEASE</version>
-    </dependency>
-    <!-- spring security end-->
 
     <!-- mysql connect start -->
     <dependency>

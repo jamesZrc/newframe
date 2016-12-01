@@ -11,7 +11,7 @@
             http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
   <!-- 将多个配置文件读取到容器中，交给Spring管理 -->
-  <bean id="propertyConfigurer" class="com.james.system.common.CustomizedPropertyConfigurer">
+  <bean id="propertyConfigurer" class="com.james.common.utils.CustomizedPropertyConfigurer">
     <property name="locations">
       <list>
         <value>/WEB-INF/config/config.properties</value>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.james.system.dao.UserDao">
+
+    <select id="getUsers" resultType="com.james.model.UserModel">
+        SELECT * FROM USERS
+    </select>
+
+    <select id="getUserByUsername" parameterType="java.lang.String" resultType="com.james.model.UserModel">
+        SELECT * FROM USERS WHERE username = #{username}
+    </select>
+
+    <insert id="save" parameterType="com.james.model.UserModel" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users(username, password, enabled, account_non_expired, credentials_non_expired, account_non_locked)
+        VALUES
+        (#{username}, #{password}, #{enabled}, #{accountNonExpired}, #{credentialsNonExpired}, #{accountNonLocked})
+    </insert>
+
+    <insert id="saveUserRole" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_role(user_id, role_id)
+        VALUES
+        (#{userId}, #{roleId})
+    </insert>
+</mapper>
