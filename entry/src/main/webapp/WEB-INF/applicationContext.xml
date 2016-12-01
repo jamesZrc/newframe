@@ -24,6 +24,7 @@
   <import resource="applicationContext-jdbc.xml"/>
   <import resource="applicationContext-mybatis.xml"/>
   <import resource="applicationContext-redis.xml"/>
+  <import resource="applicationContext-transaction.xml"/>
 
   <mvc:annotation-driven/>
   <context:component-scan base-package="com.**"/>
