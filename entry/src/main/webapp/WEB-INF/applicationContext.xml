@@ -16,12 +16,14 @@
       <list>
         <value>/WEB-INF/config/config.properties</value>
         <value>/WEB-INF/config/jdbc.properties</value>
+        <value>/WEB-INF/config/redis.properties</value>
       </list>
     </property>
   </bean>
 
   <import resource="applicationContext-jdbc.xml"/>
   <import resource="applicationContext-mybatis.xml"/>
+  <import resource="applicationContext-redis.xml"/>
 
   <mvc:annotation-driven/>
   <context:component-scan base-package="com.**"/>
