@@ -1,29 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-             xmlns:beans="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
+             xmlns:security="http://www.springframework.org/schema/security"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+                                 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <!-- 认证成功后的处理类 -->
-    <beans:bean id="authSuccess" class="com.james.system.security.AuthenticationSuccessHandlerImpl"/>
+    <import resource="applicationContext-mybatis.xml"/>
+    <!-- HttpSessionCsrfTokenRepository是把token放到session中来存取   -->
+    <bean id="csrfFilter" class="org.springframework.security.web.csrf.CsrfFilter">
+        <constructor-arg>
+            <bean class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository"/>
+        </constructor-arg>
+    </bean>
 
-    <http security="none" pattern="/login.jsp" />
-    <http auto-config="true">
-        <form-login  username-parameter="username" password-parameter="password" authentication-success-handler-ref="authSuccess"/>
-        <intercept-url pattern="/rest/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/WEB-INF" access="hasRole('ROLE_USER')" />
-        <logout logout-url="/logout.jsp" logout-success-url="/j_spring_security_check" />
-    </http>
+    <!-- 如果用的是spring mvc 的form标签，则配置此项时自动将crsf的token放入到一个hidden的input中，而不需要开发人员显式的写入form -->
+    <bean id="requestDataValueProcessor" class="org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor"/>
 
-    <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="admin" password="admin" authorities="ROLE_ADMIN"/>
-                <user name="james" password="james" authorities="ROLE_USER"/>
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>
+    <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <constructor-arg  name="authenticationEntryPoint">
+            <bean class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+                <constructor-arg  name="loginFormUrl" value="/login.jsp"/>
+            </bean>
+        </constructor-arg>
+        <property name="accessDeniedHandler">
+            <bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+                <property name="errorPage" value="/access_denied.jsp" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- 配置认证管理器 -->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref="customUserDetailsService"/>
+    </security:authentication-manager>
+
+    <!-- AuthenticationEntryPoint，引导用户进行登录 -->
+    <bean id="authEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <constructor-arg name="loginFormUrl" value="/login.jsp"/>
+    </bean>
+
+    <bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="usernameParameter" value="username"/>
+        <property name="passwordParameter" value="password"/>
+        <property name="authenticationSuccessHandler"  ref="authSuccess"/>
+        <property name="authenticationFailureHandler">
+            <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <property name="defaultFailureUrl"  value="/login.jsp?error=login_failure"/>
+            </bean>
+        </property>
+        <property name="filterProcessesUrl" value="/login.do" />
+    </bean>
+
+    <security:http entry-point-ref="authEntryPoint">
+        <security:logout logout-url="/logout.do"  invalidate-session="true" logout-success-url="/login.jsp" delete-cookies="JSESSIONID"/>
+        <security:custom-filter ref="authenticationFilter" before="FORM_LOGIN_FILTER" />
+        <!--添加自定义的过滤器 放在FILTER_SECURITY_INTERCEPTOR之前有效  -->
+        <security:custom-filter ref="customFilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+        <security:custom-filter ref="exceptionTranslationFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
+    </security:http>
 
 
-</beans:beans>
+</beans>
