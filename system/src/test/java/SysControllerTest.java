@@ -1,6 +1,7 @@
-import com.james.system.controller.SystemController;
-import com.james.system.model.UserModel;
-import com.james.system.service.UserService;
+
+import com.james.controller.SystemController;
+import com.james.model.UserModel;
+import com.james.service.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
