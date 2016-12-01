@@ -49,7 +49,7 @@
         <property name="patterns" >
             <list>
                 <!-- 确定正则表达式列表 -->
-                <value>com\.james\.system\.service\.impl\...*ServiceImpl.*</value >
+                <value>com\.james\.service\.impl\...*ServiceImpl.*</value >
             </list>
         </property>
     </bean >
