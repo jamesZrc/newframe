@@ -1,6 +1,7 @@
 package com.james.security.custom.impl;
 
 
+import com.james.common.utils.Conf;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,6 @@ import java.io.IOException;
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/sys/index.do");
+        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + Conf.get("security.authentication.success"));
     }
 }
