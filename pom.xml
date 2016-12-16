@@ -203,6 +203,7 @@
         <version>2.1</version>
         <configuration>
           <server>tomcat</server>
+          <port>8088</port>
           <ignorePackaging>true</ignorePackaging>
         </configuration>
       </plugin>
