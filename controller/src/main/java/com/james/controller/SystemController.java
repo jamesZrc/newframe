@@ -2,6 +2,7 @@ package com.james.controller;
 
 
 import com.james.common.utils.Conf;
+import com.james.common.utils.Context;
 import com.james.model.UserModel;
 import com.james.security.utils.SecurityUtils;
 import com.james.service.UserService;
@@ -45,6 +46,9 @@ public class SystemController extends BaseController {
         String defaultRole = Conf.get("user.default.role");
 
         modelAndView.addObject("currentUser", SecurityUtils.getCurrentUser());
+
+        modelAndView.addObject("accessIp", Context.getAccessIp());
+
 
         return modelAndView;
     }
