@@ -31,5 +31,10 @@
 
 <a href="${pageContext.request.contextPath}/register/index.do">注册</a>
 
+<div>
+    AccessIp: ${accessIp}
+
+</div>
+
 </body>
 </html>
