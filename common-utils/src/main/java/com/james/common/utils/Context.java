@@ -10,6 +10,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 
 /**
@@ -50,7 +52,7 @@ public class Context {
     }
 
 
-    public static String getAccessIp(){
+    public static String getAccessIp() {
 
         String ip = Context.getHttpServletRequest().getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -67,6 +69,13 @@ public class Context {
         }
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = Context.getHttpServletRequest().getRemoteAddr();
+        }
+        if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
+            try {
+                ip = InetAddress.getLocalHost().getHostAddress();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
         }
         return ip;
     }
